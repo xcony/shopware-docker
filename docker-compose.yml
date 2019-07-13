@@ -4,9 +4,9 @@ services:
   app_server:
     build: dev-ops/docker/containers/php7
     volumes:
-      - ~/.composer/cache:/var/www/composer-cache-dir:Z
-      - .:/project:Z
-      - .:/var/www/shopware:Z
+      - ~/.composer/cache:/var/www/composer-cache-dir:cached
+      - .:/project:cached
+      - .:/var/www/shopware:cached
     links:
       - app_mysql:mysql
     environment:
@@ -18,7 +18,7 @@ services:
   app_mysql:
     build: dev-ops/docker/containers/mysql
     volumes:
-      - ./dev-ops/docker/_volumes/app-mysql-data:/var/lib/mysql:Z
+      - ./dev-ops/docker/_volumes/app-mysql-data:/var/lib/mysql:cached
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: app
@@ -27,8 +27,8 @@ services:
   app_es:
     build: dev-ops/docker/containers/elastic-search
     volumes:
-      - ./dev-ops/docker/containers/elastic-search/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:Z
-      - ./dev-ops/docker/_volumes/app-es-data:/usr/share/elasticsearch/data:Z
+      - ./dev-ops/docker/containers/elastic-search/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:cached
+      - ./dev-ops/docker/_volumes/app-es-data:/usr/share/elasticsearch/data:cached
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -39,4 +39,4 @@ services:
   app_redis:
     build: dev-ops/docker/containers/redis
     volumes:
-      - ./dev-ops/docker/_volumes/app-redisdata:/data:Z
+      - ./dev-ops/docker/_volumes/app-redisdata:/data:cached
